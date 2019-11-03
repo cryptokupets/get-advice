@@ -2,7 +2,6 @@ require("mocha");
 const { assert } = require("chai");
 const { readFileSync } = require("fs");
 const { Readable } = require("stream");
-const { streamCandle } = require("get-candles");
 const {
   streamAdvice,
   streamCandlesToItem,
@@ -110,15 +109,16 @@ describe("streamBuffer", function() {
   });
 });
 
-describe.skip("streamAdvice", function() {
+describe("streamAdvice", function() {
   it("streamAdvice", function(done) {
+    this.timeout(5000);
     assert.isFunction(streamAdvice);
 
     const options = {
       exchange: "hitbtc",
       currency: "USD",
       asset: "BTC",
-      period: 1,
+      period: 60,
       start: "2019-10-01",
       end: "2019-10-02",
       indicators: [
@@ -128,8 +128,7 @@ describe.skip("streamAdvice", function() {
         }
       ],
       code:
-        // "return buffer[0].indicators[0][0] > buffer[1].indicators[0][0] ? 1 : -1;"
-        "return 1;"
+        "return buffer[1].indicators[0][0] > buffer[0].indicators[0][0] ? 1 : -1;"
     };
 
     let i = 0;
@@ -137,17 +136,14 @@ describe.skip("streamAdvice", function() {
     const rs = streamAdvice(options);
     rs.on("data", chunk => {
       const advice = JSON.parse(chunk);
-      console.log("advice:", advice);
-      // assert.isObject(advice);
-      // assert.property(advice, "sign");
-      // assert.isNumber(advice.sign);
-      // assert.equal(advice.sign, -1);
+      assert.isObject(advice);
+      assert.property(advice, "sign");
+      assert.isNumber(advice.sign);
       i++;
     });
 
-    rs.on("finish", () => {
-      console.log(i);
-      // assert.equal(i, 1);
+    rs.on("end", () => {
+      assert.equal(i, 24);
       done();
     });
   });

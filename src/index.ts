@@ -1,7 +1,7 @@
 import { streamCandle } from "get-candles";
 import {
   ICandle,
-  streamCandleToAdvice,
+  streamBufferToAdvice,
   streamCandleToBuffer
 } from "get-indicators";
 import { Readable, Transform } from "stream";
@@ -62,8 +62,11 @@ export function streamAdvice({
     start,
     end
   }); // здесь свечи как массив
-  const ts = streamCandleToAdvice({ indicators, code });
-  rs.pipe(ts);
-
-  return ts;
+  const ts0 = streamCandlesToItem();
+  const ts1 = streamCandleToBuffer(indicators);
+  const ts2 = streamBufferToAdvice({ code });
+  rs.pipe(ts0);
+  ts0.pipe(ts1);
+  ts1.pipe(ts2);
+  return ts2;
 }
