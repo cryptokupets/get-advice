@@ -139,6 +139,8 @@ describe("streamAdvice", function() {
       assert.isObject(advice);
       assert.property(advice, "sign");
       assert.isNumber(advice.sign);
+      assert.property(advice, "price");
+      assert.isNumber(advice.price);
       i++;
     });
 
