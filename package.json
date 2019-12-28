@@ -1,6 +1,6 @@
 {
   "name": "get-advice",
-  "version": "1.0.2-alpha.1",
+  "version": "1.0.3-alpha",
   "description": "Get advices from candles for backtesting",
   "repository": {
     "type": "git",
@@ -44,7 +44,7 @@
     "typescript": "^3.6.2"
   },
   "dependencies": {
-    "get-candles": "^1.0.3-alpha",
+    "get-candles": "^1.0.4-alpha",
     "get-indicators": "^1.0.5-alpha.0"
   }
 }

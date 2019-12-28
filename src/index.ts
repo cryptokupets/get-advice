@@ -4,6 +4,7 @@ import {
   streamBufferToAdvice,
   streamCandleToBuffer
 } from "get-indicators";
+export { IBuffer } from "get-indicators";
 import { Readable, Transform } from "stream";
 
 export function streamCandlesToItem(): Transform {
